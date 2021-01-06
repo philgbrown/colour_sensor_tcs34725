@@ -128,7 +128,7 @@ namespace TCS34725 {
     /**
      * Get the normalised red value from the TCS34725 color sensor
      */
-    //% block="get red"
+    //% block="red"
     //% weight=60 
     export function getRed(): number {
         getRGBC();                                                      // Get raw light and colour values
@@ -159,7 +159,7 @@ namespace TCS34725 {
     }
 
     /**
-     *  Get the natural light value of the TCS34725 color sensor
+     *  Get the natural light value from the TCS34725 color sensor
      */
     //% block="light"
     //% weight=60 
