@@ -97,7 +97,7 @@ namespace TCS34725 {
         ret |= TCS34725_ENABLE_AIEN;
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
         */
-        RGBC_C = 600;
+        RGBC_C = 800;
         RGBC_R = 250;
         RGBC_G = 300;
         RGBC_B = 200;
