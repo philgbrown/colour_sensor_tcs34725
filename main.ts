@@ -84,6 +84,7 @@ namespace TCS34725 {
      * TCS34725: Color Sensor, read red, green, blue and clear raw data
      */
     function getRGBC() {
+        /*
         if (!TCS34725_BEGIN) tcs34725_begin();                                                     // Initialise sensor if not already
 
         RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read natural (clear) light level
@@ -95,11 +96,11 @@ namespace TCS34725 {
         let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
         ret |= TCS34725_ENABLE_AIEN;
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
-        if (RGBC_C === 0) {
-            RGBC_C = 1;
-        }
-        RGBC_G = 400;
-        RGBC_B = 500;
+        */
+        RGBC_C = 600;
+        RGBC_R = 250;
+        RGBC_G = 300;
+        RGBC_B = 200;
     }
     /**
      * TCS34725: Color Sensor, returns the colour of an M & M
@@ -166,7 +167,7 @@ namespace TCS34725 {
     /**
      *  Get the natural light value from the TCS34725 color sensor
      */
-    //% block="light"
+    //% block="clear"
     //% weight=60 
     export function getC(): number {
         getRGBC();                                                      // Get raw light and colour values
