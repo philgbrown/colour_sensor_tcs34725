@@ -95,6 +95,11 @@ namespace TCS34725 {
         let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
         ret |= TCS34725_ENABLE_AIEN;
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
+        if (RGBC_C === 0) {
+            RGBC_C = 1;
+        }
+        RGBC_G = 400;
+        RGBC_B = 500;
     }
     /**
      * TCS34725: Color Sensor, returns the colour of an M & M
