@@ -35,7 +35,7 @@ namespace TCS34725 {
     let TCS34725_BEGIN: number = 0;                 // TSC34725 sensor initialisation flag, 0 = not started, 1 = started (initialised)
 
     /*
-    * I2C bus functions: Requires i2c.ts
+    * TCS34725: I2C bus functions: Requires i2c.ts
     */
     function getInt8LE(addr: number, reg: number): number {     // Get 8 bit little-endian integer 
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
@@ -100,10 +100,10 @@ namespace TCS34725 {
         RGBC_C = 1000;
         RGBC_R = 500;
         RGBC_G = 300;
-        RGBC_B = 200;
+        RGBC_B = 280;
     }
     /**
-     * TCS34725: Color Sensor, returns the colour of an M & M
+     * TCS34725: mColour - Returns the colour of an M & M
      */
         function mColour(): number {
         let mmColour = UNKNOWN;                                                                     // Start with unknown colour
@@ -132,50 +132,50 @@ namespace TCS34725 {
     }
 
     /**
-     * Get the normalised red value from the TCS34725 color sensor
+     * TCS34725: getRed - Reporter block that returns the normalised red value from the TCS34725 color sensor
      */
     //% block="red"
     //% weight=60 
     export function getRed(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let red = (Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
+        let red = RGBC_R; //(Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
         return Math.round(red);
     }
 
     /**
-     * Get the normalised green value from the TCS34725 color sensor
+     * TCS34725: getGreen - Reporter block that returns the normalised green value from the TCS34725 color sensor
      */
     //% block="green"
     //% weight=60 
     export function getGreen(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let green = (Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
+        let green = RGBC_G; //(Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
         return Math.round(green);
     }
 
     /**
-     * Get the normalised blue value from the TCS34725 color sensor
+     * TCS34725: getBlue - Reporter block that returns the normalised blue value from the TCS34725 color sensor
      */
     //% block="blue"
     //% weight=60 
     export function getBlue(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let blue = (Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
+        let blue = RGBC_B; //(Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
         return Math.round(blue)
     }
 
     /**
-     *  Get the natural light value from the TCS34725 color sensor
+     *  TCS34725: getClear - Reporter block that returns the natural light value from the TCS34725 color sensor
      */
     //% block="clear"
     //% weight=60 
-    export function getC(): number {
+    export function getClear(): number {
         getRGBC();                                                      // Get raw light and colour values
         return Math.round(RGBC_C);                                      // Return clear natural light level
     }
 
     /**
-     * Get M & M colour
+     * TCS34725: m_mColour - Reporter block that returns the colour of the M and M
      */
     //% block="m & m colour"
     //% weight=60
