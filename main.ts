@@ -56,8 +56,8 @@ namespace TCS34725 {
     }
 
     function readReg(addr: number, reg: number): number {       // Read 8 bit big-endian unsigned integer
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8LE);
+        return pins.i2cReadNumber(addr, NumberFormat.UInt8LE);
     }
 
     function writeReg(addr: number, reg: number, dat: number) { // Write 8 bit little-endian integer
