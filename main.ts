@@ -52,7 +52,7 @@ namespace TCS34725 {
     }
 
     function getInt16LE(addr: number, reg: number): number {    // Get 16 bit little-endian integer
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8LE);
         return pins.i2cReadNumber(addr, NumberFormat.Int16LE);
     }
 
@@ -78,7 +78,7 @@ namespace TCS34725 {
             writeReg(TCS34725_ADDRESS, REG_TCS34725_CONFIG | REG_TCS34725_COMMAND_BIT, 0x01);           // Set gain to 4
             writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON);   // Power on sensor
             basic.pause(3);                                                                             // Need minimum 2.4mS after power on
-            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON | TCS34725_AEN);    // Keep power on, enable RGBC
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON | TCS34725_AEN | TCS34725_AIEN);    // Keep power on, enable RGBC
             TCS34725_INIT = 1;                                                                          // Sensor is connected and initialised
         }
         else {                                                                                          // No
