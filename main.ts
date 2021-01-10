@@ -73,13 +73,13 @@ namespace TCS34725 {
     function tcs34725_begin(): boolean {
         TCS34725_INIT = 0;
         let id = readReg(TCS34725_ADDRESS, REG_TCS34725_ID | REG_TCS34725_COMMAND_BIT);             // Get TCS34725 ID
-        //if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID? (decimal 68)
-        //TCS34725_INIT = 1;                                                                          // Sensor is connected
-        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
-        //writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
-        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
-        //basic.pause(3);                                                                             // Need minimum 2.4mS after power on
-        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01 | 0x02);    // Keep power on, enable RGBC
+        if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID? (decimal 68)
+        TCS34725_INIT = 1;                                                                          // Sensor is connected
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
+        basic.pause(3);                                                                             // Need minimum 2.4mS after power on
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01 | 0x02);    // Keep power on, enable RGBC
         return false;
     }
 
@@ -88,18 +88,18 @@ namespace TCS34725 {
      */
     function getRGBC() {
         tcs34725_begin();
-        //if (!TCS34725_INIT) {                                                                      // TCS32725 sensor initialised?
-        //     tcs34725_begin();                                                                     // No, then initialise the sensor
-        //}
-        //RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read natural (clear) light level
-        //RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);      // Read red component of clear light
-        //RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read green component of clear light
-        //RGBC_B = getUInt16LE(TCS34725_ADDRESS, REG_BLUE_CHANNEL_L | REG_TCS34725_COMMAND_BIT);     // Read blue component of clear light
+        if (!TCS34725_INIT) {                                                                      // TCS32725 sensor initialised?
+             tcs34725_begin();                                                                     // No, then initialise the sensor
+        }
+        RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read natural (clear) light level
+        RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);      // Read red component of clear light
+        RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read green component of clear light
+        RGBC_B = getUInt16LE(TCS34725_ADDRESS, REG_BLUE_CHANNEL_L | REG_TCS34725_COMMAND_BIT);     // Read blue component of clear light
 
-        //basic.pause(50);
-        //let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
-        //ret |= TCS34725_ENABLE_AIEN;
-        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
+        basic.pause(50);
+        let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
+        ret |= TCS34725_ENABLE_AIEN;
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
 
     }
     /**
@@ -180,7 +180,21 @@ namespace TCS34725 {
     //% block="m & m colour"
     //% weight=60
     export function m_mColour(): number {
-        getRGBC();                                                      // Get colour / light information from TSC34725 sensor
+        let id = readReg(TCS34725_ADDRESS, REG_TCS34725_ID | REG_TCS34725_COMMAND_BIT);             // Get TCS34725 ID
+        if (id != 0x44) {                                                                           // Valid ID? (44 hex, decimal 68)
+            basic.showString("Bad= ");
+            basic.showNumber(id);
+        }
+        else {
+            basic.showString("Good= ");
+            basic.showNumber(id);
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
+            basic.pause(3);                                                                             // Need minimum 2.4mS after power on
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01 | 0x02);    // Keep power on, enable RGBC
+        }                                             
+        //getRGBC();                                                      // Get colour / light information from TSC34725 sensor
         return mColour();                                               // Return colour of M & M
     }
 }
