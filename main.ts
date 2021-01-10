@@ -2,7 +2,7 @@ namespace TCS34725 {
     /**
     * TCS34725: Color sensor register address and control bit definitions 
     */
-    const TCS34725_ADDRESS: number = 0x29;          // I2C bus address of TCS34725 sensor
+    const TCS34725_ADDRESS: number = 0x29;          // I2C bus address of TCS34725 sensor (decimal 41)
     const REG_TCS34725_ID: number = 0x12;           // ID register address, should contain 0x44 for TSC34725 or 0x4D for TSC34727
     const REG_TCS34725_COMMAND_BIT: number = 0x80;  // Command register access bit
     const REG_TCS34725_ENABLE: number = 0X00;       // Enable register address
@@ -17,7 +17,7 @@ namespace TCS34725 {
     const TCS34725_ENABLE_AEN: number = 0X02;       // Enable register RGBC enable bit, 0 = disable AtoD conversion, 1 = enable AtoD conversion
 
     /*
-    * TSC34725: Colour sensor data storage and flag definitions
+    * TSC34725: M and M colour encoding
     */
     const BLANK: number = 0;
     const BROWN: number = 1;
@@ -26,13 +26,16 @@ namespace TCS34725 {
     const YELLOW: number = 4;
     const GREEN: number = 5;
     const BLUE: number = 6;
-    const UNKNOWN: number = 9;
-    
+    const UNKNOWN: number = 9;                      // Not used, kept for testing purposes
+
+    /*
+    * TCS34725: Colour sensor data storage and flag definitions
+    */
     let RGBC_C: number = 0;                         // Clear light raw data storage
     let RGBC_R: number = 0;                         // Red light raw data storage
     let RGBC_G: number = 0;                         // Green light raw data storage
     let RGBC_B: number = 0;                         // Blue light raw data storage
-    let TCS34725_BEGIN: number = 0;                 // TSC34725 sensor initialisation flag, 0 = not started, 1 = started (initialised)
+    let TCS34725_INIT: number = 0;                  // TSC34725 sensor initialisation flag, 0 = not initialised, 1 = initialised
 
     /*
     * TCS34725: I2C bus functions: Requires i2c.ts
@@ -61,17 +64,17 @@ namespace TCS34725 {
         let buf = pins.createBuffer(2);
         buf[0] = reg;
         buf[1] = dat;
-        pins.i2cWriteBuffer(addr, buf)
+        pins.i2cWriteBuffer(addr, buf);
     }
 
     /**
      * TCS34725: Color Sensor Initialisation
      */
     function tcs34725_begin(): boolean {
-        TCS34725_BEGIN = 0;
+        TCS34725_INIT = 0;
         let id = readReg(TCS34725_ADDRESS, REG_TCS34725_ID | REG_TCS34725_COMMAND_BIT);             // Get TCS34725 ID
-        if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID?
-        TCS34725_BEGIN = 1;                                                                         // Sensor is connected
+        if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID? (decimal 68)
+        TCS34725_INIT = 1;                                                                          // Sensor is connected
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
         writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
@@ -84,9 +87,9 @@ namespace TCS34725 {
      * TCS34725: Color Sensor, read red, green, blue and clear raw data
      */
     function getRGBC() {
-        /*
-        if (!TCS34725_BEGIN) tcs34725_begin();                                                     // Initialise sensor if not already
-
+        if (!TCS34725_INIT) {                                                                      // TCS32725 sensor initialised?
+             tcs34725_begin();                                                                     // No, then initialise the sensor
+        }
         RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read natural (clear) light level
         RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);      // Read red component of clear light
         RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read green component of clear light
@@ -96,11 +99,7 @@ namespace TCS34725 {
         let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
         ret |= TCS34725_ENABLE_AIEN;
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Enable RGBC interrupt ?
-        */
-        RGBC_C = 1000;
-        RGBC_R = 500;
-        RGBC_G = 300;
-        RGBC_B = 280;
+
     }
     /**
      * TCS34725: mColour - Returns the colour of an M & M
@@ -138,7 +137,7 @@ namespace TCS34725 {
     //% weight=60 
     export function getRed(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let red = RGBC_R; //(Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
+        let red = (Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
         return Math.round(red);
     }
 
@@ -149,7 +148,7 @@ namespace TCS34725 {
     //% weight=60 
     export function getGreen(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let green = RGBC_G; //(Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
+        let green = (Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
         return Math.round(green);
     }
 
@@ -160,7 +159,7 @@ namespace TCS34725 {
     //% weight=60 
     export function getBlue(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let blue = RGBC_B; //(Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
+        let blue = (Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
         return Math.round(blue)
     }
 
