@@ -73,14 +73,14 @@ namespace TCS34725 {
     function tcs34725_begin(): boolean {
         TCS34725_INIT = 0;
         let id = readReg(TCS34725_ADDRESS, REG_TCS34725_ID | REG_TCS34725_COMMAND_BIT);             // Get TCS34725 ID
-        if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID? (decimal 68)
-        TCS34725_INIT = 1;                                                                          // Sensor is connected
-        writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
-        writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
-        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
-        basic.pause(3);                                                                             // Need minimum 2.4mS after power on
-        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01 | 0x02);    // Keep power on, enable RGBC
-        return true;
+        //if ((id != 0x44) && (id != 0x10)) return false;                                             // Valid ID? (decimal 68)
+        //TCS34725_INIT = 1;                                                                          // Sensor is connected
+        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Set integration time
+        //writeReg(TCS34725_ADDRESS, REG_TCS34725_GAIN | REG_TCS34725_COMMAND_BIT, 0x01);             // Set gain
+        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01);           // Power on sensor
+        //basic.pause(3);                                                                             // Need minimum 2.4mS after power on
+        //writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, 0x01 | 0x02);    // Keep power on, enable RGBC
+        return false;
     }
 
     /**
