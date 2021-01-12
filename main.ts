@@ -115,7 +115,7 @@ namespace TCS34725 {
         else if ((RGBC_C > 700) && (RGBC_R > 300) && (RGBC_G < 260) && (RGBC_B < 220)) {            // Red M & M?
             mmColour = RED;                                                                         // Yes
         }
-        else if ((RGBC_C > 1000) && (RGBC_R > 500) && (RGBC_G < 230) && (RGBC_B < 250)) {           // Orange M & M?
+        else if ((RGBC_C > 1000) && (RGBC_R > 500) && (RGBC_G < 330) && (RGBC_B < 250)) {           // Orange M & M?
             mmColour = ORANGE;                                                                      // Yes
         }
         else if ((RGBC_C > 1300) && (RGBC_R > 600) && (RGBC_G > 480) && (RGBC_B < 290)) {           // Yellow M & M?
@@ -124,7 +124,7 @@ namespace TCS34725 {
         else if ((RGBC_C > 800) && (RGBC_R < 280) && (RGBC_G > 380) && (RGBC_B < 270)) {            // Green M & M?
             mmColour = GREEN;                                                                       // Yes
         }
-        else if ((RGBC_C < 780) && (RGBC_R < 220) && (RGBC_G < 320) && (RGBC_B > 270)) {            // Blue M & M?
+        else if ((RGBC_C < 800) && (RGBC_R < 220) && (RGBC_G < 320) && (RGBC_B > 270)) {            // Blue M & M?
             mmColour = BLUE;                                                                        // Yes
         }
         else {
