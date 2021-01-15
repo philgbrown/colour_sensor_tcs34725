@@ -1,9 +1,20 @@
+    /*
+    * This is a MakeCode (pxt) extension for the colour sensor type TCS34725 connected to a micro:bit via the i2c bus. 
+    * The TCS34725 sensor is assumeed to be part of an Adafruit TCS34725 colour sensor board with inbuilt illumination LED. 
+    * Five blocks provide the following data: 
+    * red light component, green light component, blue light component, total light intensity and the colour of a M & M confectionery (0-6).
+    * The colour component readings are normalised against the total light reading.
+    * Interrupts are disabled in the sensor and no provision is made to control the inbuilt white illumination LED. Refer to Adafruit docs and tutorial for more information. 
+    * The M & M colour block is used in conjunction with a software controlled M & M colour sorting machine and returns a number between 0 and 6. 
+    * 
+    */
+    
 namespace TCS34725 {
     /**
     * TCS34725: Color sensor register address and control bit definitions 
     */
     const TCS34725_ADDRESS: number = 0x29;          // I2C bus address of TCS34725 sensor (decimal 41)
-    const REG_TCS34725_ID: number = 0x12;           // ID register address, should contain 0x44 for TSC34725 or 0x4D for TSC34727
+    const REG_TCS34725_ID: number = 0x12;           // ID register address, should contain 0x44 for TCS34725 or 0x4D for TCS34727
     const REG_TCS34725_COMMAND_BIT: number = 0x80;  // Command register access bit
     const REG_TCS34725_ENABLE: number = 0X00;       // Enable register address
     const REG_TCS34725_ATIME: number = 0X01;        // Integration time register address
@@ -16,6 +27,7 @@ namespace TCS34725 {
     const TCS34725_PON: number = 0X01;              // Enable register PON bit, 0 = power off, 1 = power on
     const TCS34725_AEN: number = 0X02;              // Enable register RGBC enable bit, 0 = disable AtoD conversion, 1 = enable AtoD conversion
     const TCS34725_ID: number = 0x44;               // Sensor ID = 0x44 or 68 decimal
+    const TCS34729_ID: number = 0x4D;               // Sensor ID = 0x4D or 77 decimal
 
     /*
     * TSC34725: M and M colour encoding
@@ -90,10 +102,14 @@ namespace TCS34725 {
      * TCS34725: Color Sensor, read red, green, blue and clear raw data
      */
     function getRGBC() {
-        if (!TCS34725_INIT) {                                                                      // Is the TCS32725 sensor initialised?
-             tcs34725_begin();                                                                     // No, then initialise the sensor
+        if (!TCS34725_INIT) {                                                                       // Is the TCS32725 sensor initialised?
+             tcs34725_begin();                                                                      // No, then initialise the sensor
         }
-        RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read natural (clear) light level
+        let clear = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);  // Read natural (clear) light level
+        if (clear == 0) {                                                                           // Prevent divide by zero error if sensor in complete darkness 
+            clear = 1; 
+        }
+        RGBC_C = clear;
         RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);      // Read red component of clear light
         RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);    // Read green component of clear light
         RGBC_B = getUInt16LE(TCS34725_ADDRESS, REG_BLUE_CHANNEL_L | REG_TCS34725_COMMAND_BIT);     // Read blue component of clear light
@@ -141,7 +157,7 @@ namespace TCS34725 {
     export function getRed(): number {
         getRGBC();                                                      // Get raw light and colour values
         let red = (Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
-        return Math.round(RGBC_R);
+        return Math.round(red);
     }
 
     /**
@@ -152,7 +168,7 @@ namespace TCS34725 {
     export function getGreen(): number {
         getRGBC();                                                      // Get raw light and colour values
         let green = (Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
-        return Math.round(RGBC_G);
+        return Math.round(green);
     }
 
     /**
@@ -163,7 +179,7 @@ namespace TCS34725 {
     export function getBlue(): number {
         getRGBC();                                                      // Get raw light and colour values
         let blue = (Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
-        return Math.round(RGBC_B);
+        return Math.round(blue);
     }
 
     /**
