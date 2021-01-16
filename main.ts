@@ -13,12 +13,15 @@ namespace TCS34725 {
     /**
     * TCS34725: Color sensor register address and control bit definitions 
     */
-    const TCS34725_ADDRESS: number = 0x29;          // I2C bus address of TCS34725 sensor (decimal 41)
-    const REG_TCS34725_ID: number = 0x12;           // ID register address, should contain 0x44 for TCS34725 or 0x4D for TCS34727
+    const TCS34725_ADDRESS: number = 0x29;          // I2C bus address of TCS34725 sensor (0x39 for TCS34721)
     const REG_TCS34725_COMMAND_BIT: number = 0x80;  // Command register access bit
     const REG_TCS34725_ENABLE: number = 0X00;       // Enable register address
-    const REG_TCS34725_ATIME: number = 0X01;        // Integration time register address
-    const REG_TCS34725_CONFIG: number = 0x0F;       // Configuration register address, sets gain
+    const REG_TCS34725_TIMING: number = 0X01;       // RGBC timing register address
+    const REG_TCS34725_WAIT: number = 0x03;         // Wait time register address
+    const REG_TCS34725_CONFIG: number = 0x0D;       // Configuration register address
+    const REG_TCS34725_CONTROL: number = 0x0F;      // Control register address, sets gain
+    const REG_TCS34725_ID: number = 0x12;           // ID register address, should contain 0x44 for TCS34725 or 0x4D for TCS34725
+    const REG_TCS34725_STATUS: number = 0x13;       // Status register address
     const REG_CLEAR_CHANNEL_L: number = 0X14;       // Clear data low byte register address
     const REG_RED_CHANNEL_L: number = 0X16;         // Red data low byte register address
     const REG_GREEN_CHANNEL_L: number = 0X18;       // Green data low byte register address
@@ -86,11 +89,13 @@ namespace TCS34725 {
     function tcs34725_begin() {
         let id = readReg(TCS34725_ADDRESS, REG_TCS34725_ID | REG_TCS34725_COMMAND_BIT);                 // Get TCS34725 ID
         if (id === 0x44) {                                                                              // Valid ID?
-            writeReg(TCS34725_ADDRESS, REG_TCS34725_ATIME | REG_TCS34725_COMMAND_BIT, 0xEB);            // Yes, Set integration time
-            writeReg(TCS34725_ADDRESS, REG_TCS34725_CONFIG | REG_TCS34725_COMMAND_BIT, 0x01);           // Set gain to 4
-            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON);   // Power on sensor
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_TIMING | REG_TCS34725_COMMAND_BIT, 0xEB);           // Yes, Set integration time
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_WAIT | REG_TCS34725_COMMAND_BIT, 0xFF);             // Set wait time to 2.4mS 
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_CONFIG | REG_TCS34725_COMMAND_BIT, 0x00);           // Set WLONG to 0
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_CONTROL | REG_TCS34725_COMMAND_BIT, 0x01);          // Set gain to 4
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON);   // Power on sensor, disable wait time, disable interrupts 
             basic.pause(3);                                                                             // Need minimum 2.4mS after power on
-            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON | TCS34725_AEN | TCS34725_AIEN);    // Keep power on, enable RGBC
+            writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, TCS34725_PON | TCS34725_AEN);    // Keep power on, enable RGBC ADC
             TCS34725_INIT = 1;                                                                          // Sensor is connected and initialised
         }
         else {                                                                                          // No
@@ -116,7 +121,7 @@ namespace TCS34725 {
 
         basic.pause(50);
         let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)        // Get current status of enable register
-        ret |= TCS34725_AIEN;                                                                      // Set AEIN bit
+        ret |= TCS34725_AIEN;                                                                      // Set AEIN bit ?
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Re-enable RGBC interrupt ?
 
     }
