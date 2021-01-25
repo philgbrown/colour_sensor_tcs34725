@@ -9,7 +9,7 @@
     * 
     */
     
-//% colour="#AA278D" icon="uf06e"
+//% colour="#AA278D" icon="\uf06e"
 namespace TCS34725 {
     /**
     * TCS34725: Color sensor register address and control bit definitions 
