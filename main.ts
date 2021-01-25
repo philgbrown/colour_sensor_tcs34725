@@ -8,7 +8,8 @@
     * The M & M colour block is used in conjunction with a software controlled M & M colour sorting machine and returns a number between 0 and 6. 
     * 
     */
-    //% colour="#AA278D" icon="uf06e"
+    
+//% colour="#AA278D" icon="uf06e"
 namespace TCS34725 {
     /**
     * TCS34725: Color sensor register address and control bit definitions 
