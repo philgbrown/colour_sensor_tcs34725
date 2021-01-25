@@ -131,22 +131,22 @@ namespace TCS34725 {
      */
         function mColour(): number {
         let mmColour = UNKNOWN;                                                                     // Start with unknown colour
-        if ((RGBC_C < 670) && (RGBC_R > 190) && (RGBC_G < 240) && (RGBC_B < 200)) {                 // Brown M & M?
+        if ((RGBC_C < 590) && (RGBC_R > 80) && (RGBC_G < 100) && (RGBC_B < 85)) {                   // Brown M & M?
             mmColour = BROWN;                                                                       // Yes
         }
-        else if ((RGBC_C > 700) && (RGBC_R > 300) && (RGBC_G < 260) && (RGBC_B < 220)) {            // Red M & M?
+        else if ((RGBC_C > 620) && (RGBC_R > 100) && (RGBC_G < 85) && (RGBC_B < 70)) {              // Red M & M?
             mmColour = RED;                                                                         // Yes
         }
-        else if ((RGBC_C > 1000) && (RGBC_R > 500) && (RGBC_G < 330) && (RGBC_B < 250)) {           // Orange M & M?
+        else if ((RGBC_C > 860) && (RGBC_R > 120) && (RGBC_G < 80) && (RGBC_B < 60)) {              // Orange M & M?
             mmColour = ORANGE;                                                                      // Yes
         }
-        else if ((RGBC_C > 1300) && (RGBC_R > 600) && (RGBC_G > 480) && (RGBC_B < 290)) {           // Yellow M & M?
+        else if ((RGBC_C > 1100) && (RGBC_R > 115) && (RGBC_G > 80) && (RGBC_B < 55)) {             // Yellow M & M?
             mmColour = YELLOW;                                                                      // Yes
         }
-        else if ((RGBC_C > 800) && (RGBC_R < 280) && (RGBC_G > 380) && (RGBC_B < 270)) {            // Green M & M?
+        else if ((RGBC_C > 700) && (RGBC_R < 80) && (RGBC_G > 100) && (RGBC_B < 80)) {              // Green M & M?
             mmColour = GREEN;                                                                       // Yes
         }
-        else if ((RGBC_C < 800) && (RGBC_R < 220) && (RGBC_G < 320) && (RGBC_B > 270)) {            // Blue M & M?
+        else if ((RGBC_C < 630) && (RGBC_R < 80) && (RGBC_G < 100) && (RGBC_B > 85)) {              // Blue M & M?
             mmColour = BLUE;                                                                        // Yes
         }
         else {
