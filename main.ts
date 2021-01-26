@@ -205,7 +205,8 @@ namespace TCS34725 {
     //% weight=60
     export function m_mColour(): number {
         getRGBC();                                                      // Get colour / light information from TSC34725 sensor
-        return mColour();                                               // Return colour of M & M
+        let colour: number = mColour();                                 // Get colour of M & M
+        return colour;
     }
     
     // PCA9685 address definitions. 
