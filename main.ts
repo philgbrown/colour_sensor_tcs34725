@@ -133,23 +133,17 @@ namespace TCS34725 {
         let mmColour = UNKNOWN;                                                                     // Start with unknown colour
         if ((RGBC_C < 590) && (RGBC_R > 80) && (RGBC_G < 100) && (RGBC_B < 85)) {                   // Brown M & M?
             mmColour = BROWN;                                                                       // Yes
-        }
-        else if ((RGBC_C > 620) && (RGBC_R > 100) && (RGBC_G < 85) && (RGBC_B < 70)) {              // Red M & M?
+        } else if ((RGBC_C > 620) && (RGBC_R > 100) && (RGBC_G < 85) && (RGBC_B < 70)) {            // Red M & M?
             mmColour = RED;                                                                         // Yes
-        }
-        else if ((RGBC_C > 860) && (RGBC_R > 120) && (RGBC_G < 80) && (RGBC_B < 60)) {              // Orange M & M?
+        } else if ((RGBC_C > 860) && (RGBC_R > 120) && (RGBC_G < 80) && (RGBC_B < 60)) {            // Orange M & M?
             mmColour = ORANGE;                                                                      // Yes
-        }
-        else if ((RGBC_C > 1100) && (RGBC_R > 115) && (RGBC_G > 80) && (RGBC_B < 55)) {             // Yellow M & M?
+        } else if ((RGBC_C > 1100) && (RGBC_R > 115) && (RGBC_G > 80) && (RGBC_B < 55)) {           // Yellow M & M?
             mmColour = YELLOW;                                                                      // Yes
-        }
-        else if ((RGBC_C > 700) && (RGBC_R < 80) && (RGBC_G > 100) && (RGBC_B < 80)) {              // Green M & M?
+        } else if ((RGBC_C > 700) && (RGBC_R < 80) && (RGBC_G > 100) && (RGBC_B < 80)) {            // Green M & M?
             mmColour = GREEN;                                                                       // Yes
-        }
-        else if ((RGBC_C < 630) && (RGBC_R < 80) && (RGBC_G < 100) && (RGBC_B > 85)) {              // Blue M & M?
+        } else if ((RGBC_C < 630) && (RGBC_R < 80) && (RGBC_G < 100) && (RGBC_B > 85)) {            // Blue M & M?
             mmColour = BLUE;                                                                        // Yes
-        }
-        else {
+        } else {
             mmColour = BLANK;                                                                       // Broken, missing, discoloured or chipped M & M
         }
         return mmColour;
