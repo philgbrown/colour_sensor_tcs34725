@@ -36,7 +36,7 @@ namespace TCS34725 {
     /*
     * TSC34725: M and M colour encoding
     */
-    const BLANK: number = 0;
+    const BLANK: number = 7;
     const BROWN: number = 1;
     const RED: number = 2;
     const ORANGE: number = 3;
