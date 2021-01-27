@@ -127,7 +127,7 @@ namespace TCS34725 {
 
     }
     /**
-     * TCS34725: mColour - Returns the colour of an M & M
+     * TCS34725: colourMM - Returns the colour of an M & M
      */
         function colourMM(): number {                                                                     // Start with unknown colour
         if ((RGBC_C < 590) && (RGBC_R > 80) && (RGBC_G < 100) && (RGBC_B < 85)) {                   // Brown M & M?
@@ -145,7 +145,7 @@ namespace TCS34725 {
         if ((RGBC_C > 700) && (RGBC_R < 80) && (RGBC_G > 100) && (RGBC_B < 80)) {            // Green M & M?
             return GREEN;                                                                       // Yes
         }
-        if ((RGBC_C < 630) && (RGBC_R < 80) && (RGBC_G < 100) && (RGBC_B > 85)) {            // Blue M & M?
+        if (RGBC_C < 630 && RGBC_R < 80 && RGBC_G < 100 && RGBC_B > 85) {            // Blue M & M?
             return BLUE;                                                                        // Yes
         }
             return BLANK;                                                                       // Broken, missing, discoloured or chipped M & M
