@@ -36,7 +36,7 @@ namespace TCS34725 {
     /*
     * TSC34725: M and M colour encoding
     */
-    const BLANK: number = 7;
+    const BLANK: number = 0;
     const BROWN: number = 1;
     const RED: number = 2;
     const ORANGE: number = 3;
@@ -129,7 +129,7 @@ namespace TCS34725 {
     /**
      * TCS34725: mColour - Returns the colour of an M & M
      */
-        function mColour(): number {
+        function colourMM(): number {
         let mmColour = UNKNOWN;                                                                     // Start with unknown colour
         if ((RGBC_C < 590) && (RGBC_R > 80) && (RGBC_G < 100) && (RGBC_B < 85)) {                   // Brown M & M?
             mmColour = BROWN;                                                                       // Yes
@@ -199,7 +199,7 @@ namespace TCS34725 {
     //% weight=60
     export function m_mColour(): number {
         getRGBC();                                                      // Get colour / light information from TSC34725 sensor
-        let colour: number = mColour();                                 // Get colour of M & M
+        let colour: number = colourMM();                                // Get colour of M & M
         return colour;
     }
     
