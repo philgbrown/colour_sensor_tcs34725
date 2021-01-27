@@ -135,7 +135,7 @@ namespace TCS34725 {
             mmColour = BROWN;                                                                       // Yes
         } else if ((RGBC_C > 620) && (RGBC_R > 100) && (RGBC_G < 85) && (RGBC_B < 70)) {            // Red M & M?
             mmColour = RED;                                                                         // Yes
-        } else if ((RGBC_C > 860) && (RGBC_R > 120) && (RGBC_G < 80) && (RGBC_B < 60)) {            // Orange M & M?
+        } else if (RGBC_C > 860 && RGBC_R > 120 && RGBC_G < 80 && RGBC_B < 60) {            // Orange M & M?
             mmColour = ORANGE;                                                                      // Yes
         } else if ((RGBC_C > 1100) && (RGBC_R > 115) && (RGBC_G > 80) && (RGBC_B < 55)) {           // Yellow M & M?
             mmColour = YELLOW;                                                                      // Yes
