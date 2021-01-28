@@ -180,7 +180,15 @@ namespace TCS34725 {
         let red: number = Math.round((RGBC_R / RGBC_C) * 255);          // Normalise red value
         let green: number = Math.round((RGBC_G / RGBC_C) * 255);        // Normalise green value
         let blue: number = Math.round((RGBC_B / RGBC_C) * 255);         // Normalise blue value
-        let clear: number = RGBC_C;
+        let clear: number = RGBC_C;                                     // Get clear light level
+        basic.showString(" C= ");
+        basic.showNumber(clear);
+        basic.showString(" R= ");
+        basic.showNumber(red);
+        basic.showString(" G= ");
+        basic.showNumber(green);
+        basic.showString(" B= ");
+        basic.showNumber(blue);
         if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
             return BROWN;                                               // Yes
         }
