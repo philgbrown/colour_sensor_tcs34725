@@ -36,7 +36,7 @@ namespace TCS34725 {
     /*
     * TSC34725: M and M colour encoding
     */
-    const BLANK: number = 0;
+    const BLANK: number = 0;                        // Broken, missing, discoloured or chipped M & M
     const BROWN: number = 1;
     const RED: number = 2;
     const ORANGE: number = 3;
@@ -181,15 +181,7 @@ namespace TCS34725 {
         let green: number = Math.round((RGBC_G / RGBC_C) * 255);            // Normalise green value
         let blue: number = Math.round((RGBC_B / RGBC_C) * 255);             // Normalise blue value
         let clear: number = RGBC_C;                                         // Get clear light level
-        basic.showString(" C= ");
-        basic.showNumber(clear);
-        basic.showString(" R= ");
-        basic.showNumber(red);
-        basic.showString(" G= ");
-        basic.showNumber(green);
-        basic.showString(" B= ");
-        basic.showNumber(blue);
-        let colour: number = UNKNOWN;                                       // Colour = unknown
+        let colour: number = UNKNOWN;                                       // Colour unknown to start with
         if (clear > 550 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
             colour = BROWN;                                                 // Yes
         }
