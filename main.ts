@@ -196,10 +196,10 @@ namespace TCS34725 {
         else if (clear < 700 && red > 100 && green < 85 && blue < 70) {     // Red M & M?
             colour = RED;                                                   // Yes
         }
-        else if (clear > 860 && red > 120 && green < 80 && blue < 60) {     // Orange M & M?
+        else if (clear > 820 && red > 120 && green < 80 && blue < 60) {     // Orange M & M?
             colour = ORANGE;                                                // Yes
         }
-        else if (clear > 1100 && red > 115 && green > 80 && blue < 55) {    // Yellow M & M?
+        else if (clear > 1100 && red > 110 && green > 80 && blue < 55) {    // Yellow M & M?
             colour = YELLOW;                                                // Yes
         }
         else if (clear > 700 && red < 80 && green > 100 && blue < 80) {     // Green M & M?
