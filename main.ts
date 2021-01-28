@@ -182,13 +182,13 @@ namespace TCS34725 {
         let blue: number = Math.round((RGBC_B / RGBC_C) * 255);             // Normalise blue value
         let clear: number = RGBC_C;                                         // Get clear light level
         let colour: number = UNKNOWN;                                       // Colour unknown to start with
-        basic.showString("C= ");
+        basic.showString(" C= ");
         basic.showNumber(RGBC_C);
-        basic.showString("R= ");
+        basic.showString(" R= ");
         basic.showNumber(red);
-        basic.showString("G= ");
+        basic.showString(" G= ");
         basic.showNumber(green);
-        basic.showString("B= ");
+        basic.showString(" B= ");
         basic.showNumber(blue);
         if (clear < 570 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
             colour = BROWN;                                                 // Yes
@@ -211,7 +211,7 @@ namespace TCS34725 {
         else {
             colour = BLANK;                                                 // Broken, missing, discoloured or chipped M & M
         }
-        basic.showString("M= ");
+        basic.showString(" M= ");
         basic.showNumber(colour);
         
         return colour; 
