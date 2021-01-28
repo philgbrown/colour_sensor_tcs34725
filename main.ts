@@ -182,7 +182,7 @@ namespace TCS34725 {
         let blue: number = Math.round((RGBC_B / RGBC_C) * 255);             // Normalise blue value
         let clear: number = RGBC_C;                                         // Get clear light level
         let colour: number = UNKNOWN;                                       // Colour unknown to start with
-        if (clear > 550 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
+        if (clear < 570 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
             colour = BROWN;                                                 // Yes
         }
         else if (clear < 700 && red > 100 && green < 85 && blue < 70) {     // Red M & M?
