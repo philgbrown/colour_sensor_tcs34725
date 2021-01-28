@@ -190,7 +190,7 @@ namespace TCS34725 {
         basic.showString(" B= ");
         basic.showNumber(blue);
         let colour: number = UNKNOWN;                                       // Colour = unknown
-        if (clear < 590 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
+        if (clear > 550 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
             colour = BROWN;                                                 // Yes
         }
         else if (clear < 700 && red > 100 && green < 85 && blue < 70) {     // Red M & M?
