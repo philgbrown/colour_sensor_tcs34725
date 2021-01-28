@@ -176,11 +176,11 @@ namespace TCS34725 {
     //% block="m & m colour"
     //% weight=60
     export function m_mColour(): number {
-        getRGBC();                                                      // Get colour / light information from TSC34725 sensor
-        let red: number = Math.round((RGBC_R / RGBC_C) * 255);          // Normalise red value
-        let green: number = Math.round((RGBC_G / RGBC_C) * 255);        // Normalise green value
-        let blue: number = Math.round((RGBC_B / RGBC_C) * 255);         // Normalise blue value
-        let clear: number = RGBC_C;                                     // Get clear light level
+        getRGBC();                                                          // Get colour / light information from TSC34725 sensor
+        let red: number = Math.round((RGBC_R / RGBC_C) * 255);              // Normalise red value
+        let green: number = Math.round((RGBC_G / RGBC_C) * 255);            // Normalise green value
+        let blue: number = Math.round((RGBC_B / RGBC_C) * 255);             // Normalise blue value
+        let clear: number = RGBC_C;                                         // Get clear light level
         basic.showString(" C= ");
         basic.showNumber(clear);
         basic.showString(" R= ");
@@ -189,25 +189,29 @@ namespace TCS34725 {
         basic.showNumber(green);
         basic.showString(" B= ");
         basic.showNumber(blue);
-        if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
-            return BROWN;                                               // Yes
+        let colour: number = UNKNOWN;                                       // Colour = unknown
+        if (clear < 590 && red > 80 && green < 100 && blue < 85) {          // Brown M & M?
+            colour = BROWN;                                                 // Yes
         }
-        if (clear < 700 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
-            return RED;                                                 // Yes
+        else if (clear < 700 && red > 100 && green < 85 && blue < 70) {     // Red M & M?
+            colour = RED;                                                   // Yes
         }
-        if (clear > 860 && red > 120 && green < 80 && blue < 60) {      // Orange M & M?
-            return ORANGE;                                              // Yes
+        else if (clear > 860 && red > 120 && green < 80 && blue < 60) {     // Orange M & M?
+            colour = ORANGE;                                                // Yes
         }
-        if (clear > 1100 && red > 115 && green > 80 && blue < 55) {     // Yellow M & M?
-            return YELLOW;                                              // Yes
+        else if (clear > 1100 && red > 115 && green > 80 && blue < 55) {    // Yellow M & M?
+            colour = YELLOW;                                                // Yes
         }
-        if (clear > 700 && red < 80 && green > 100 && blue < 80) {      // Green M & M?
-            return GREEN;                                               // Yes
+        else if (clear > 700 && red < 80 && green > 100 && blue < 80) {     // Green M & M?
+            colour = GREEN;                                                 // Yes
         }
-        if (clear > 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
-            return BLUE;                                                // Yes
+        else if (clear > 630 && red < 80 && green < 100 && blue > 85) {     // Blue M & M?
+            colour = BLUE;                                                  // Yes
         }
-        return BLANK;                                                   // Broken, missing, discoloured or chipped M & M
+        else {
+            colour = BLANK;                                                 // Broken, missing, discoloured or chipped M & M
+        }
+        return colour; 
     }
     
     // PCA9685 address definitions. 
