@@ -192,7 +192,7 @@ namespace TCS34725 {
         if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
             return BROWN;                                               // Yes
         }
-        if (clear > 620 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
+        if (clear < 700 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
             return RED;                                                 // Yes
         }
         if (clear > 860 && red > 120 && green < 80 && blue < 60) {      // Orange M & M?
@@ -204,7 +204,7 @@ namespace TCS34725 {
         if (clear > 700 && red < 80 && green > 100 && blue < 80) {      // Green M & M?
             return GREEN;                                               // Yes
         }
-        if (clear < 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
+        if (clear > 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
             return BLUE;                                                // Yes
         }
         return BLANK;                                                   // Broken, missing, discoloured or chipped M & M
