@@ -126,34 +126,6 @@ namespace TCS34725 {
         writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)            // Re-enable RGBC interrupt ?
 
     }
-    /**
-     * TCS34725: colourMM - Returns the colour of an M & M
-     */
-        function colourMM(): number {
-        let red: number = Math.round((RGBC_R / RGBC_C) * 255);          // Normalise red value
-        let green: number = Math.round((RGBC_G / RGBC_C) * 255);        // Normalise green value
-        let blue: number = Math.round((RGBC_R / RGBC_C) * 255);         // Normalise blue value
-        let clear: number = RGBC_C;
-        if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
-            return BROWN;                                               // Yes
-        }
-        if (clear > 620 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
-            return RED;                                                 // Yes
-        }
-        if (clear > 860 && red > 120 && green < 80 && blue < 60) {      // Orange M & M?
-            return ORANGE;                                              // Yes
-        }
-        if (clear > 1100 && red > 115 && green > 80 && blue < 55) {     // Yellow M & M?
-            return YELLOW;                                              // Yes
-        }
-        if (clear > 700 && red < 80 && green > 100 && blue < 80) {      // Green M & M?
-            return GREEN;                                               // Yes
-        }
-        if (clear < 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
-            return BLUE;                                                // Yes
-        }
-        return BLANK;                                                   // Broken, missing, discoloured or chipped M & M
-    }
 
     /**
      * TCS34725: getRed - Reporter block that returns the normalised red value from the TCS34725 color sensor
@@ -205,8 +177,29 @@ namespace TCS34725 {
     //% weight=60
     export function m_mColour(): number {
         getRGBC();                                                      // Get colour / light information from TSC34725 sensor
-        let colour: number = colourMM();                                // Get colour of M & M
-        return colour;
+        let red: number = Math.round((RGBC_R / RGBC_C) * 255);          // Normalise red value
+        let green: number = Math.round((RGBC_G / RGBC_C) * 255);        // Normalise green value
+        let blue: number = Math.round((RGBC_B / RGBC_C) * 255);         // Normalise blue value
+        let clear: number = RGBC_C;
+        if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
+            return BROWN;                                               // Yes
+        }
+        if (clear > 620 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
+            return RED;                                                 // Yes
+        }
+        if (clear > 860 && red > 120 && green < 80 && blue < 60) {      // Orange M & M?
+            return ORANGE;                                              // Yes
+        }
+        if (clear > 1100 && red > 115 && green > 80 && blue < 55) {     // Yellow M & M?
+            return YELLOW;                                              // Yes
+        }
+        if (clear > 700 && red < 80 && green > 100 && blue < 80) {      // Green M & M?
+            return GREEN;                                               // Yes
+        }
+        if (clear < 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
+            return BLUE;                                                // Yes
+        }
+        return BLANK;                                                   // Broken, missing, discoloured or chipped M & M
     }
     
     // PCA9685 address definitions. 
