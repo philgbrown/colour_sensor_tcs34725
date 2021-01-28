@@ -129,26 +129,30 @@ namespace TCS34725 {
     /**
      * TCS34725: colourMM - Returns the colour of an M & M
      */
-        function colourMM(): number {                                                                     // Start with unknown colour
-        if ((RGBC_C < 590) && (RGBC_R > 80) && (RGBC_G < 100) && (RGBC_B < 85)) {                   // Brown M & M?
-            return BROWN;                                                                       // Yes
+        function colourMM(): number {
+        let red: number = Math.round((RGBC_R / RGBC_C) * 255);          // Normalise red value
+        let green: number = Math.round((RGBC_G / RGBC_C) * 255);        // Normalise green value
+        let blue: number = Math.round((RGBC_R / RGBC_C) * 255);         // Normalise blue value
+        let clear: number = RGBC_C;
+        if (clear < 590 && red > 80 && green < 100 && blue < 85) {      // Brown M & M?
+            return BROWN;                                               // Yes
         }
-        if ((RGBC_C > 620) && (RGBC_R > 100) && (RGBC_G < 85) && (RGBC_B < 70)) {            // Red M & M?
-            return RED;                                                                         // Yes
+        if (clear > 620 && red > 100 && green < 85 && blue < 70) {      // Red M & M?
+            return RED;                                                 // Yes
         }
-        if (RGBC_C > 860 && RGBC_R > 120 && RGBC_G < 80 && RGBC_B < 60) {            // Orange M & M?
-            return ORANGE;                                                                      // Yes
+        if (clear > 860 && red > 120 && green < 80 && blue < 60) {      // Orange M & M?
+            return ORANGE;                                              // Yes
         }
-        if ((RGBC_C > 1100) && (RGBC_R > 115) && (RGBC_G > 80) && (RGBC_B < 55)) {           // Yellow M & M?
-            return YELLOW;                                                                      // Yes
+        if (clear > 1100 && red > 115 && green > 80 && blue < 55) {     // Yellow M & M?
+            return YELLOW;                                              // Yes
         }
-        if ((RGBC_C > 700) && (RGBC_R < 80) && (RGBC_G > 100) && (RGBC_B < 80)) {            // Green M & M?
-            return GREEN;                                                                       // Yes
+        if (clear > 700 && red < 80 && green > 100 && blue < 80) {      // Green M & M?
+            return GREEN;                                               // Yes
         }
-        if (RGBC_C < 630 && RGBC_R < 80 && RGBC_G < 100 && RGBC_B > 85) {            // Blue M & M?
-            return BLUE;                                                                        // Yes
+        if (clear < 630 && red < 80 && green < 100 && blue > 85) {      // Blue M & M?
+            return BLUE;                                                // Yes
         }
-            return BLANK;                                                                       // Broken, missing, discoloured or chipped M & M
+        return BLANK;                                                   // Broken, missing, discoloured or chipped M & M
     }
 
     /**
@@ -158,8 +162,8 @@ namespace TCS34725 {
     //% weight=60 
     export function getRed(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let red = (Math.round(RGBC_R) / Math.round(RGBC_C)) * 255;      // Normalise red value
-        return Math.round(red);
+        let red = Math.round((RGBC_R / RGBC_C) * 255);                  // Normalise red value
+        return red;
     }
 
     /**
@@ -169,8 +173,8 @@ namespace TCS34725 {
     //% weight=60 
     export function getGreen(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let green = (Math.round(RGBC_G) / Math.round(RGBC_C)) * 255;    // Normalise green value
-        return Math.round(green);
+        let green = Math.round((RGBC_G / RGBC_C) * 255);                // Normalise green value
+        return green;
     }
 
     /**
@@ -180,8 +184,8 @@ namespace TCS34725 {
     //% weight=60 
     export function getBlue(): number {
         getRGBC();                                                      // Get raw light and colour values
-        let blue = (Math.round(RGBC_B) / Math.round(RGBC_C)) * 255;     // Normalise blue value
-        return Math.round(blue);
+        let blue = Math.round((RGBC_B / RGBC_C) * 255);                 // Normalise blue value
+        return blue;
     }
 
     /**
